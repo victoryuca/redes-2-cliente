@@ -114,7 +114,9 @@ public class Controladora2 {
             oos = new ObjectOutputStream(cliente.getOutputStream());// asociar buffer de envio
             System.out.println("Sending request to Socket Server");
             
-            String input = Usuario + ";" + Clave;
+            String accion = "login";
+            
+            String input = accion + ";JDVA;" + Usuario + ";JDVA;" + Clave;
             
             oos.writeObject(input); // mandar la info
             ois = new ObjectInputStream(cliente.getInputStream());// asociar buffer de entrada
@@ -125,12 +127,21 @@ public class Controladora2 {
             oos.close();
             cliente.close();
             
-            return true;
+            String[] parts = message.split(";JDVA;");
+            String estatus = parts[1];
+            if(parts[0].equals("login")) {
+                if(estatus.equals("success")) {
+                    return true;
+                } else {
+                    String msgError = parts[2];
+                    System.err.println("Error: "+ msgError);
+                }
+            }
             
         } catch(IOException io) {
             System.err.println("Error creando el socket "+io);
-            return false;
         }    
+        return false;
     }
     
     public boolean login(String usuario, String clave) {
