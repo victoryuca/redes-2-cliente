@@ -1,5 +1,8 @@
 package redes2;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import redescliente.Controladora2;
 
 public class Login extends javax.swing.JFrame {
@@ -108,9 +111,17 @@ public class Login extends javax.swing.JFrame {
         String clave = textClave.getText();
         String idUsuario = controlador.login(usuario, clave);
         if(!idUsuario.isEmpty()) {
-            Chat inicio = new Chat(idUsuario);
-            inicio.setVisible(true);
+            ChatJose inicio;
+            try {
+                inicio = new ChatJose(idUsuario);
+                inicio.setVisible(true);
             this.setVisible(false);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         } else {
             System.err.println("Usuario y contraseña no encontrado");
         }     
@@ -149,6 +160,7 @@ public class Login extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
