@@ -106,8 +106,9 @@ public class Login extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         String usuario = textUsuario.getText();
         String clave = textClave.getText();
-        if(controlador.login(usuario, clave)) {
-            Chat inicio = new Chat();
+        String idUsuario = controlador.login(usuario, clave);
+        if(!idUsuario.isEmpty()) {
+            Chat inicio = new Chat(idUsuario);
             inicio.setVisible(true);
             this.setVisible(false);
         } else {
